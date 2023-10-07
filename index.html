@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>Отсортировать товары:</p>
+        <button v-on:click="sortAsc">По возрастанию</button>
+        <button v-on:click="sortDesc">По убыванию</button>
+        <ul>
+            <li v-for="product in products" :key="product.id">
+                <p>{{product.name}} - {{product.price}} руб.</p>
+            </li>
+        </ul>
+    </div>
+    <!--  -->
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        class Product {
+            constructor(id) {
+                this.id = id;
+                this.name = `Продукт ${id}`;
+                this.price = Math.ceil(Math.random() * 1000);
+            }
+            static createProducts(count) {
+                const products = [];
+                for (let i = 0; i < count; i++) {
+                    products.push(new Product(i + 1));
+                }
+                return products;
+            }
+        }
+
+        const App = {
+            data() {
+                return {
+                    products: Product.createProducts(9)
+                };
+            },
+            methods: {
+                sortAsc() {
+                    this.products.sort((a, b) => a.price - b.price);
+                },
+                sortDesc() {
+                    this.products.sort((a, b) => a.price - b.price).reverse();
+                }
+            },
+        }
+
+        Vue.createApp(App).mount('#app');
+    </script>
+</body>
+
+</html>
